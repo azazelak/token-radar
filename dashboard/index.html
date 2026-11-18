@@ -3,12 +3,73 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Token Radar: pre-token protocols ranked by implied value</title>
+<title>Token Radar — pre-token protocols ranked by implied launch value</title>
 <link rel="stylesheet" href="app.css">
 </head>
 <body>
-<a class="skip" href="#board">Skip to the board</a>
-<main id="board" tabindex="-1" aria-busy="true"></main>
+<header class="top">
+  <div class="brand"><span class="dot"></span>TOKEN RADAR</div>
+  <div class="sub">Which pre-token protocol is worth farming next — ranked by what its launch would be worth.</div>
+</header>
+
+<section class="facts" id="facts"></section>
+
+<nav class="tabs">
+  <button id="tab-board" class="tab on">Board</button>
+  <button id="tab-live" class="tab">Live tokens <span id="live-count"></span></button>
+  <span class="tab-note">Board = protocols that record no token. Live = tokens already trading, shown for comparison only.</span>
+</nav>
+
+<section class="controls" id="board-controls">
+  <input id="q" type="search" placeholder="Search name, slug or category…" aria-label="Search">
+  <select id="verdict" aria-label="Verdict filter">
+    <option value="All">All verdicts</option>
+    <option value="Farm">Farm</option>
+    <option value="Thin">Thin</option>
+    <option value="Skip">Skip</option>
+  </select>
+  <select id="category" aria-label="Category filter"><option value="All">All categories</option></select>
+  <select id="sort" aria-label="Sort">
+    <option value="implied">Sort: implied value ↓</option>
+    <option value="tvl">Sort: TVL ↓</option>
+    <option value="name">Sort: name A–Z</option>
+    <option value="age">Sort: oldest first</option>
+  </select>
+  <span class="count" id="row-count"></span>
+</section>
+
+<main>
+  <div id="board-view">
+    <table>
+      <thead><tr>
+        <th>#</th><th>Protocol</th><th>Category</th><th>Chains</th>
+        <th class="num">TVL</th><th class="num">7d</th><th class="num">Implied value</th><th>Verdict</th>
+      </tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <p class="hint">Click any row for the detail view: implied-value breakdown, comps, farm plan and risks. “Records no token” means the snapshot records none — it is not proof the protocol has none.</p>
+  </div>
+  <div id="live-view" hidden>
+    <table>
+      <thead><tr>
+        <th>Protocol</th><th>Category</th><th class="num">TVL</th><th class="num">Market cap</th><th class="num">mcap / TVL</th>
+      </tr></thead>
+      <tbody id="live-rows"></tbody>
+    </table>
+    <p class="hint">The comps set: traded protocols whose token has a positive market cap. Their median mcap/TVL per category is what prices the board.</p>
+  </div>
+</main>
+
+<section class="model" id="model"></section>
+
+<footer>
+  <p>Model radar-2. Snapshot: DefiLlama protocols, sealed 2026-11-14. Implied values are this radar's own claim from the snapshot's figures — not a price, not a prediction that a token will launch. Do your own checks before depositing anything.</p>
+</footer>
+
+<div class="overlay" id="overlay" hidden>
+  <div class="sheet" id="sheet" role="dialog" aria-modal="true"></div>
+</div>
+
 <script src="../data.js"></script>
 <script src="app.js"></script>
 </body>
